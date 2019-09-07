@@ -874,14 +874,19 @@ on 连接条件
 -- 	e.department_id = d.department_id;
 
 #案例2：查询名字中包含e的员工名和工种名 
-select
-	last_name,job_title
-from
-	employees e
-inner join 
-	jobs j
-where
-	last_name like '%e%';
+-- select
+-- 	last_name,job_title
+-- from
+-- 	employees e
+-- inner join 
+-- 	jobs j
+-- where
+-- 	last_name like '%e%';
+    
+#案例3：查询部门个数>3的城市名和部门个数，（分组+筛选） 
+select 
+	
+
     
 
     
