@@ -884,18 +884,18 @@ on 连接条件
 -- 	last_name like '%e%';
     
 #案例3：查询部门个数>3的城市名和部门个数，（分组+筛选） 
-select 
-	count(*),city
-from
-	locations l
-inner join
-	departments d 
-on
-	l.location_id = d.location_id
-group by
-	city
-having
-	count(*)>3;
+-- select 
+-- 	count(*),city
+-- from
+-- 	locations l
+-- inner join
+-- 	departments d 
+-- on
+-- 	l.location_id = d.location_id
+-- group by
+-- 	city
+-- having
+-- 	count(*)>3;
 
     
 
