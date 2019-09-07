@@ -856,7 +856,7 @@ n表连接，至少需要n-1个连接条件
 	cross
 */
 	
-#1.内连接 
+#(1)内连接 
 /*
 select 查询列表 
 from 表1 别名 
@@ -933,14 +933,14 @@ on 连接条件
 
 #2.非等值连接 
 #查询员工的工资级别 
-select 
-	salary,grade_level
-from
-	employees
-inner join
-	job_grades g
-on 
-	salary between g.lowest_sal and highest_sal; 
+-- select 
+-- 	salary,grade_level
+-- from
+-- 	employees
+-- inner join
+-- 	job_grades g
+-- on 
+-- 	salary between g.lowest_sal and highest_sal; 
     
 #查询每个工资级别的个数并且按工资级别降序 
 -- select 
@@ -955,6 +955,58 @@ on
 -- 	grade_level
 -- order by
 -- 	grade_level;
+
+#3.自连接 
+#查询姓名中包含k员工的名字上级的名字 
+-- select
+-- 	e.last_name,m.last_name
+-- from
+-- 	employees e
+-- inner join
+-- 	employees m 
+-- on 
+-- 	e.manager_id = m.employee_id
+-- where
+--     e.last_name like '%k%';
+
+#(2)外连接
+/*
+查询一个表中有另一个表中没有的
+
+特点：
+	外连接的查询结果为主表中的所有记录
+    如果主表中有匹配的则显示匹配的值
+    如果主表中没有相匹配的，则显示null
+    外连接查询结果=内连接
+    
+    左外连接 left join左边的是主表 
+    右外连接 right join右边的是主表
+    
+    左外和右外交换两个表的顺序可以实现同样的效果 
+*/
+#引入：没有男朋友的女神名
+#左外连接   
+-- select b.name,bo.*
+-- from beauty b
+-- left outer join boys bo
+-- on b.boyfriend_id = bo.id
+-- where bo.id is null;
+#右外连接 
+-- select b.name,bo.*
+-- from boys bo
+-- right outer join beauty b
+-- on b.boyfriend_id = bo.id
+-- where bo.id is null;
+
+#案例1：查询哪个部门没有员工 
+-- select
+-- 	d.department_name
+-- from
+-- 	departments d
+-- left outer join 
+-- 	employees e
+-- on d.department_id = e.department_id
+-- where e.employee_id is null;
 
 
 	
