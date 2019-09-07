@@ -862,6 +862,12 @@ select 查询列表
 from 表1 别名 
 inner join 表2 别名
 on 连接条件 
+
+特点：
+	可以添加排序 分组 筛选
+    inner 可以省略
+    筛选条件在where 连接条件在on
+    inner join 连接和SQL92语法中等值连接效果一样
 */
 #案例1：查询员工名 部门名 （调换位子） 
 -- select
@@ -896,6 +902,62 @@ on 连接条件
 -- 	city
 -- having
 -- 	count(*)>3;
+
+#案例4：查询每个部门的员工个数>3部门名和员工个数，并按个数排序 
+-- select
+-- 	count(*),department_name
+-- from
+-- 	employees e
+-- inner join
+-- 	departments d
+-- on
+-- 	e.department_id = d.department_id
+-- group by
+-- 	department_name
+-- having
+-- 	count(*)>3
+-- order by
+-- 	count(*);
+
+#案例5：查询员工名 部门名 工种名 并按部门名降序 
+-- select
+-- 	last_name,department_name,job_title
+-- from
+-- 	employees e
+-- inner join
+-- 	departments d on e.department_id = d.department_id
+-- join
+-- 	jobs j on e.job_id = j.job_id
+-- order by
+-- 	department_name desc;
+
+#2.非等值连接 
+#查询员工的工资级别 
+select 
+	salary,grade_level
+from
+	employees
+inner join
+	job_grades g
+on 
+	salary between g.lowest_sal and highest_sal; 
+    
+#查询每个工资级别的个数并且按工资级别降序 
+-- select 
+-- 	count(*),grade_level
+-- from
+-- 	employees
+-- inner join
+-- 	job_grades g
+-- on 
+-- 	salary between g.lowest_sal and highest_sal
+-- group by
+-- 	grade_level
+-- order by
+-- 	grade_level;
+
+
+	
 
     
 
