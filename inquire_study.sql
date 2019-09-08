@@ -1020,11 +1020,120 @@ on 连接条件
 -- cross join
 -- 	boys bo
 
-#Sql92 和 Sql99
-/* 
-
+#============================================================================
+#============================================================================
+#!子查询 
+/*
+含义： 
+	出现再其他语句中的select语句就是子查询，又称为内查询 
+外部的查询语句：
+	主查询或外查询
+分类： 
+	出现的位子：
+		select 后面
+			仅仅支持标量子查询 
+		from 后面 
+			支持表子查询 
+        where 或 having 后面（※）
+			标量子查询 
+            列子查询 
+            行子查询 
+        exists后面（相关子查询）
+			表子查询 
+	按功能：
+		标量子查询（结果集只有一行一列）
+        列子查询（结果只有一列多行)
+        行子查询 (结果可以有多行多列)
+        表子查询（结果集任意 一般为多行多列） 
+        
+特点：
+	子查询都放在小括号内
+    子查询一般放在条件的右侧 
+    标量子查询，一般搭配单行操作符使用  > < >= <= = <>
+    
+    列子查询一般搭配这多行操作符使用 
+    in any/some all
+    
+    子查询的执行优先于主查询 
 */
 
-    
+#一 where或having后面
+
+#-------------------------
+#1.标量子查询（单行子查询）
+#案例1：谁的工资比Able高？
+#查询Abel的工资 
+-- select 
+-- 	salary
+-- from 
+-- 	emoployees
+-- where
+-- 	last_name = 'Abel';
+
+-- select *
+-- from employees
+-- where salary > (
+-- 	select 
+-- 		salary
+-- 	from 
+-- 		employees
+-- 	where
+-- 		last_name = 'Abel'
+-- 	);
+
+#案例2：查询job_id与141号员工相同 salary比143号员工多的员工 姓名，job_id和工资
+-- select
+-- 	last_name,job_id,salary
+-- from
+-- 	employees
+-- where
+-- 	salary > (
+-- 		select
+-- 			salary 
+-- 		from
+-- 			employees
+-- 		where
+-- 			employee_id = 143
+--     )
+-- and
+-- 	job_id = (
+-- 		select job_id
+--         from employees
+--         where employee_id = 141
+--     )
+
+#案例3：返回公司工资最少的员工姓名，工种名，薪水
+-- select 
+-- 	last_name,job_id,salary
+-- from
+-- 	employees
+-- where
+-- 	salary = (
+-- 		select 
+-- 			min(salary)
+-- 		from
+-- 			employees
+--     );
+
+#案例4：查询最低工资大于50号部门最低工资的部门ID和最低工资 
+-- select
+-- 	min(salary),department_id
+-- from
+-- 	employees
+-- group by
+-- 	department_id 
+-- having
+-- 	min(salary)>(
+-- 		select min(salary)
+--         from employees
+--         where department_id = 50
+--     );
+
+#2.列子查询（多行子查询） 
+
+	
+	
+	
+#3.行子查询（多列多行） 
 
     
