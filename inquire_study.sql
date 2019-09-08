@@ -982,7 +982,9 @@ on 连接条件
     左外连接 left join左边的是主表 
     右外连接 right join右边的是主表
     
-    左外和右外交换两个表的顺序可以实现同样的效果 
+    左外和右外交换两个表的顺序可以实现同样的效果
+    
+    全外连接相当于内连接中表1有表2没有+表1没有表2有
 */
 #引入：没有男朋友的女神名
 #左外连接   
@@ -1008,10 +1010,20 @@ on 连接条件
 -- on d.department_id = e.department_id
 -- where e.employee_id is null;
 
+#（3）全外连接 MySql不支持 
+#full outer join 
 
+#（4）交叉连接 =92的直接连 
+-- select b.*,bo.*
+-- from
+-- 	beauty b
+-- cross join
+-- 	boys bo
 
+#Sql92 和 Sql99
+/* 
 
-	
+*/
 
     
 

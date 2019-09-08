@@ -1,4 +1,4 @@
-use myemployees;
+#use myemployees;
 
 #============================================================================
 #============================================================================
@@ -212,13 +212,78 @@ use myemployees;
 	
 #7、选择指定员工的姓名，员工号，以及他的管理者的姓名和员工号，结果类似于下面的格 式 
 #employees Emp# manager Mgr# kochhar   101 king    100 
-select
-	e.last_name employees,e.employee_id "Emp#",m.last_name manager,m.employee_id "Mgr#"
-from
-	employees e, employees m
-where 
-	e.manager_id = m.employee_id
-and
-	e.last_name = 'kochhar'
+-- select
+-- 	e.last_name employees,e.employee_id "Emp#",m.last_name manager,m.employee_id "Mgr#"
+-- from
+-- 	employees e, employees m
+-- where 
+-- 	e.manager_id = m.employee_id
+-- and
+-- 	e.last_name = 'kochhar'
+#============================================================================
+#============================================================================
+
+
+#test_lesson07 SQL99语法连接查询
+#一、查询编号>3 的女神的男朋友信息，如果有则列出详细，如果没有，用 null 填充
+-- select
+-- 	b.name,bo.*
+-- from
+-- 	beauty b
+-- left outer join
+-- 	boys bo
+-- on
+-- 	b.boyfriend_id = bo.id
+-- where
+-- 	b.id>3;
+#右外    
+-- select
+-- 	b.name,bo.*
+-- from
+-- 	boys bo
+-- right outer join
+-- 	beauty b
+-- on
+-- 	b.boyfriend_id = bo.id
+-- where
+-- 	b.id>3;
+	
+ #二、查询哪个城市没有部门 
+--  use myemployees;
+--  select
+-- 	l.city,d.*
+-- from
+-- 	locations l
+-- left outer join 
+-- 	departments d
+-- on 
+-- 	l.location_id = d.location_id
+-- where
+-- 	d.department_id is null;
+
+ #三、查询部门名为 SAL 或 IT 的员工信息 
+--  select
+-- 	e.*,d.department_name
+-- from
+-- 	departments d
+-- left outer join 
+-- 	employees e 
+-- on e.department_id = d.department_id
+-- where
+-- 	d.department_name in ('SAL','IT');
+
+#============================================================================
+#============================================================================
+
+#!子查询 
+/*
+含义： 
+	出现再其他语句中的select语句就是子查询，又称为内查询 
+外部的查询语句：
+	主查询或外查询 
+    
+*/
+ 
+	
 
  
