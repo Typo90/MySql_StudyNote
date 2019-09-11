@@ -1174,6 +1174,22 @@ on 连接条件
 --     )
 -- and job_id <> 'IT_PROG';
 
-#3.行子查询（多列多行） 
-
-    
+#3.行子查询（一行多列或者多列多行）
+#案例1：查询员工编号最小并且工资最高的员工信息 
+-- select *
+-- from employees
+-- where employee_id = (
+-- 	select min(employee_id)
+-- 	from employees
+-- )
+-- and salary = (
+-- 	select max(salary)
+-- 	from employees
+-- );
+#行子查询 
+-- select *
+-- from employees
+-- where (employee_id , salary) = (
+-- 	select min(employee_id), max(salary)
+--     from employees
+-- )    
