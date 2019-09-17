@@ -1192,4 +1192,132 @@ on 连接条件
 -- where (employee_id , salary) = (
 -- 	select min(employee_id), max(salary)
 --     from employees
--- )    
+-- ) 
+
+#二 放在select后面
+#案例查询每个部门的员工个数 
+-- select
+-- 	d.*, (
+-- 		select count(*) 
+--         from employees e
+--         where  e.department_id = d.department_id)
+-- from
+-- 	departments d;
+
+#案例2：查询员工号=102部门名
+-- select
+-- 	(select department_name 
+--     from departments d
+--     inner join employees e
+--     on d.department_id = e.department_id
+--     where e.employee_id = 102);
+
+#三 from后面
+/*
+将子查询结果充当一张表，必须起别名
+*/ 
+#案例：查询每个部门的平均工资的工资等级 
+-- select
+-- 	avg(salary),department_id 
+-- from
+-- 	employees
+-- group by
+-- 	department_id;
+
+-- select
+-- 	ag_dep.* , g.grade_level
+-- from (
+-- 	select
+-- 		avg(salary) as ag,department_id 
+-- 	from
+-- 		employees
+-- 	group by
+-- 		department_id
+-- ) ag_dep
+-- inner join 
+-- 	job_grades g
+-- on 
+-- 	ag_dep.ag between lowest_sal and highest_sal;
+
+#四 exists后面（相关子查询）
+/*
+exists(完整的查询语句）
+结果：
+1或0
+*/
+-- select exists(select employee_id from employees);#返回boolean型 
+
+#案例1：查询有员工的 部门名 
+
+-- select department_name
+-- from departments d 
+-- where d.department_id in(
+-- 	select department_id
+--     from employees e
+-- );
+
+-- select department_name
+-- from departments d
+-- where exists(
+-- 	select *
+--     from employees e
+--     where d.department_id = e.department_id
+-- );
+
+#案例2：查询没女朋友的男神信息
+-- select 
+-- 	bo.*
+-- from 
+-- 	boys bo 
+-- where bo.id  not in (
+-- 	select boyfriend_id
+--     from beauty
+-- );
+
+-- select
+-- 	bo.*
+-- from
+-- 	boys bo 
+-- where not exists(
+-- 	select boyfriend_id
+--     from beauty b
+--     where bo.id = b.boyfriend_id
+-- )
+
+#============================================================================
+#============================================================================
+#！分页查询 
+/*
+应用场景：当要显示的数据一页显示不全，需要分页提交sql请求 
+语法：
+	select 查询列表 
+    from 表 
+    [join type]
+	on 连接条件 
+    where 筛选条件 
+    group by 分组字段 
+    having 分组后的筛选 
+    order by 排序的字段 
+    limit offset，size；
+    
+    offset要显示条目的启示索引（起始索引从0开始）
+    size 要显示的条目个数  
+    
+特点：
+	
+
+*/
+#案例1：擦洗前五条的员工信息 
+-- select * from employees limit 5;
+
+#案例2：查询11条到第25条 
+-- select * from employees limit 10,15;
+
+#案例3：有奖金的员工的员工信息，并且工资较高的前10
+-- select * 
+-- from employees
+-- where commission_pct is not null
+-- order by salary desc
+-- limit 10; 
+
+
