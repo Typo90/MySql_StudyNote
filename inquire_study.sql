@@ -1301,9 +1301,11 @@ exists(完整的查询语句）
     limit offset，size；
     
     offset要显示条目的启示索引（起始索引从0开始）
+    
     size 要显示的条目个数  
     
 特点：
+
 	
 
 */
