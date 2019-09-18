@@ -1305,7 +1305,15 @@ exists(完整的查询语句）
     size 要显示的条目个数  
     
 特点：
-
+	limit放在语句最后面
+	select 查询列表 
+    from 表 
+    limit (page-1)*size , size;
+    size = 10 
+    page 
+	1 0
+    2 10
+    3 20
 	
 
 */
@@ -1322,4 +1330,28 @@ exists(完整的查询语句）
 -- order by salary desc
 -- limit 10; 
 
+#============================================================================
+#============================================================================
 
+#!联合查询
+/*
+union 联合 合并：将多条查询语句的结果合并成一个结果 
+语法：
+	查询语句1
+    union
+    查询与君2
+    union
+    ····
+    
+    
+    
+*/
+
+#案例：查询部门编号>90或者邮箱中包含A的员工信息 
+select *
+from employees
+where email like '%a%'
+union
+select *
+from employees
+where department_id >90
