@@ -1343,15 +1343,20 @@ union 联合 合并：将多条查询语句的结果合并成一个结果
     union
     ····
     
-    
+特点：
+    查询的结果来自于多个表，多个表没直接联系的关系 
+	多条查询语句的查询列数是一致的 
+    要求多条查询语句查询的每一列的类型和顺序一致 
+    union关键字默认去重，如果使用union all可以包含重复项 
     
 */
 
 #案例：查询部门编号>90或者邮箱中包含A的员工信息 
-select *
-from employees
-where email like '%a%'
-union
-select *
-from employees
-where department_id >90
+-- select *
+-- from employees
+-- where email like '%a%'
+-- union
+-- select *
+-- from employees
+-- where department_id >90
+
