@@ -155,4 +155,4 @@ truncate table boys ;
 4.truncate删除没有返回值，delete删除有返回值
 5.truncate删除不能回滚，delete可以回滚 
 */
-# 
+#  
