@@ -112,3 +112,8 @@ from author
 where false;
 select * from copy4;
 
+#常见约束 
+/*
+含义：一种限制，用于限制表中的数据，为了保证表中的数据的准确和可靠性
+
+*/
