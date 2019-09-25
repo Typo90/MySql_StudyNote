@@ -144,13 +144,125 @@ select * from copy4;
 		列级约束：
 			6大约束都可以写 语法上都支持，但外键约束没有效果
         表级约束：
-			除了非空和默认 其他的都支持  
+			除了非空和默认 其他的都支持 
+            
+主键和唯一对比:
+			保证唯一性	是否允许为空 		是否允许组合  			 
+	主键 	√			×(至多一个为空)		√（不推荐）
+    唯一	√			√(可以有多个)		√（不推荐）
+
+外键：
+	1.要求在从表设置外键关系
+    2.从表外键列的类型和主表列的类型一致或兼容，名称无要求
+    3.主表的关键列必需是一个key（主键或唯一）
+    4.插入数据时，先插主表，再插从表 
+	删除数据时，先删除从表，再删除主表
+    5.可以有多个约束条件 
 */
 
 #一 创建表时添加约束 
 #1.添加列级约束 
+/*
+语法：
+	直接在字段名和类型后面追加 约束类型
+	只支持：默认 非空 主键 唯一 
+*/
 create database students;
 use students;
 create table stuinfo(
 	id int primary key,#主键
-)
+    stuName varchar(20) not null,#非空 
+    gender char(1) check(gender = '男' or gender = '女 '),#（不支持） 
+    seat int unique,#唯一 
+    age int default 20 ,#默认 
+    majorId int references major(id)#外键（不支持）
+);
+desc stuinfo;
+show index from stuinfo;
+#drop table major;
+create table major(
+	id int primary key,
+    majorName varchar(20)
+);
+
+#2.添加表级约束
+/*
+语法：
+	在各个字段最下面 
+    【constraint 约束名】 约束类型（字段名）
+*/ 
+drop table if exists stuinfo;
+create table stuinfo(
+	id int,
+    stuname varchar(20),
+    gender char(1),
+    seat int, 
+    age int,
+    majorid int,
+    
+    /*constraint pk*/ primary key(id),#主键 
+    constraint uq unique(seat),#唯一键 
+    constraint ck check(gender in ('男','女')),#check
+    /*constraint fk_stuinfo_major*/ foreign key(majorid) references major(id),#外键
+    #组合主键 
+    constraint z primary key(id,stuname)
+);
+show index from stuinfo;
+
+#通用写法
+create table if not exists stuinfo(
+	id int primary key,
+    stuname varchar(20) not null,
+    gender char(1),
+    seat int unique, 
+    age int default 20,
+    majorid int,
+    constraint fk_stuinfo_major foreign key(mayjorid)references major(id)
+);
+
+#二 修改表时添加约束
+/*
+1.添加列级约束 
+alter table 表名 modify column 字段名 字段类型 新约束;
+
+2.添加表级约束 
+alter table 表名 add 【constraint 约束名】 约束类型(字段名)【外键的引用】
+
+
+*/
+drop table if exists stuinfo;
+create table stuinfo(
+	id int,
+    stuname varchar(20),
+    gender char(1),
+    seat int, 
+    age int,
+    majorid int
+    
+);
+desc stuinfo;
+#1.添加非空约束 
+alter table stuinfo modify column stuname varchar(20) not null;
+#2.添加默认约束 
+alter table stuinfo modify column age int default 20;
+#3.添加主键 
+alter table stuinfo modify column id int primary key;
+alter table stuinfo add primary key(id);
+#4.添加唯一键 
+alter table stuinfo modify column seat int unique;
+alter table stuinfo add constraint uq unique(seat);
+#5.添加外键 
+alter table stuinfo add foreign key(majorid) references major(id);
+
+#三 修改表时删除约束
+#1.删除非空约束
+alter table stuinfo modify column sdtuname varchar(20) null;
+#2.删除默认的约束 
+alter table stuinfo modify age int;
+#3.删除主键
+alter table stuinfo modify column id int;#不行 
+alter table stuinfo drop primary key;
+#4.删除唯一键 
+alter table stuinfo drop index seat;
+#5.删除外键
+alter table stuinfo drop foreign key XXX;
