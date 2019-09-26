@@ -112,6 +112,7 @@ from author
 where false;
 select * from copy4;
 
+#--------------------------------------------------------------------
 #常见约束 
 /*
 含义：一种限制，用于限制表中的数据，为了保证表中的数据的准确和可靠性
@@ -266,4 +267,34 @@ alter table stuinfo drop primary key;
 alter table stuinfo drop index seat;
 #5.删除外键
 alter table stuinfo drop foreign key XXX;
+
+
+#--------------------------------------------------------------------
+#标识列
+/*
+又称为自增长列
+含义:可以不用手动的插入值,系统提供默认的序列 
+特点:
+	1.不一定非要和主键搭配,但一定要和key搭配
+	2.一个表中只能有一个标识列 
+    3.标识列的类型只能是int/float/double
+    4.标识列可以通过 set auto_increment_increment = 3步长 
+*/
+
+#一 创建表时设置标识列 
+create table tab_identity(
+	id int primary key auto_increment,
+    name varchar(20)
+);
+insert into tab_identity values(null,'john');
+insert into tab_identity(name) values('lucy');
+select * from tab_identity;
+
+set auto_increment_increment = 3;
+
+#二 修改表时修改标识列 
+alter table tab_identity modify column id int primary key auto_increment;
+
+#三 修改表时删除标识列 
+alter table tab_identity modify column id int;
 
