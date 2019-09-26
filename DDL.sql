@@ -266,3 +266,4 @@ alter table stuinfo drop primary key;
 alter table stuinfo drop index seat;
 #5.删除外键
 alter table stuinfo drop foreign key XXX;
+
