@@ -298,3 +298,4 @@ alter table tab_identity modify column id int primary key auto_increment;
 #三 修改表时删除标识列 
 alter table tab_identity modify column id int;
 
+ 

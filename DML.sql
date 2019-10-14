@@ -85,7 +85,11 @@ update boys set boyName = '张飞' ,usercp = 10
 where id = 2;
 select * from boys;
 
-SET SQL_SAFE_UPDATES = 0;
+
+#=============================
+SET SQL_SAFE_UPDATES = 0;#====
+#=============================
+
 #2.修改多表的记录 
 #案例1：修改张无忌的女朋友的手机号为144
 update boys bo

@@ -118,13 +118,64 @@ join jobs j on j.job_id = e.job_id;
 select * from myv1 where last_name like '%a%';
 
 #2.查询各部门平均工资级别
-create view myv2
+
+create view myv2_1
 as
 select avg(salary) ag,department_id 
 from employees
 group by department_id;
 
-select myv2.ag,g.grade_level
-from myv2
+select myv2_1.ag,g.grade_level
+from myv2_1
 join job_grades g
-on myv2.ag between g.lowest_sal and g.highest_sal;
+on myv2_1.ag between g.lowest_sal and g.highest_sal;
+
+#3.查询平均工资最低的部门信息
+select * from myv2_1
+order by ag limit 1;
+
+#4.查询平均工资最低的部门名和工资 
+create view myv3 
+as 
+select * from myv2_1 
+order by ag limit 1;
+
+select d.*,m.ag
+from myv3 m
+join departments d
+on m.department_id = d.department_id;
+
+#二 视图的修改 
+
+#方式一
+/*
+create or replace 视图名 
+as
+查询语句;
+*/
+create or replace view myv3
+as 
+select avg(salary),job_id;
+
+#方式二 
+/*
+语法:
+alter view 视图名 
+as 
+查询语句 
+*/
+alter view myv3 
+as
+select * from employees;
+
+#三 删除视图 
+/*
+语法 drop view视图名 
+*/
+drop view myv2;
+
+#四 查看视图 
+/*
+*/
+desc myv3;
+show create view myv3;#命令行好看一些 

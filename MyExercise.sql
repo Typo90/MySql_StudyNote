@@ -473,3 +473,62 @@ desc dept2;
 #3. 向表 emp2 中添加列 dept_id，并在其中定义 FOREIGN KEY 约束，与之相关联的列是 dept2 表中的 id 列。
 alter table emp2 add column dept_id int;
 alter table emp2 add foreign key(dept_id) references dept2(department_id);
+
+#============================================================================
+#============================================================================
+
+
+#test_lesson14 视图
+#一、创建视图 emp_v1,要求查询电话号码以‘011’开头的员工姓名和工资、邮箱 
+create or replace view emp_v1 
+as
+select last_name,salary,email 
+from employees
+where phone_number like '011%';
+
+#二、要求将视图 emp_v1 修改为查询电话号码以‘011’开头的并且邮箱中包含 e 字符的员 工姓名和邮箱、电话号码
+create or replace view emp_v1
+as
+select last_name,email,phone_number 
+from employees
+where phone_number like '011%'
+and email like '%e%';
+
+select * from emp_v1; 
+
+#三、向 emp_v1 插入一条记录，是否可以？√ 
+#四、修改刚才记录中的电话号码为‘0119’ 
+create or replace view emp_v1
+as
+select last_name,email,phone_number 
+from employees
+where phone_number like '0119%'
+and email like '%e%';
+
+#五、删除刚才记录
+drop view emp_v1;
+ 
+#六、创建视图 emp_v2，要求查询部门的最高工资高于 12000 的部门信息 
+create or replace view emp_v2
+as 
+select max(salary) emp_max,department_id
+from employees
+group by department_id
+having  max(salary) > 12000;
+
+select d.*,v2.emp_max
+from departments d
+join emp_v2 v2
+on v2.department_id = d.department_id;
+
+#七、向 emp_v2 中插入一条记录，是否可以？ ×
+#八、删除刚才的 emp_v2 和 emp_v1 
+drop view emp_v1;
+
+#============================================================================
+#============================================================================
+#主键 事务 视图
+#1.创建表book 字段如下
+/*
+
+*/ 
