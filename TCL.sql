@@ -116,3 +116,15 @@ join departments d on e.department_id = d.department_id
 join jobs j on j.job_id = e.job_id;
 
 select * from myv1 where last_name like '%a%';
+
+#2.查询各部门平均工资级别
+create view myv2
+as
+select avg(salary) ag,department_id 
+from employees
+group by department_id;
+
+select myv2.ag,g.grade_level
+from myv2
+join job_grades g
+on myv2.ag between g.lowest_sal and g.highest_sal;
