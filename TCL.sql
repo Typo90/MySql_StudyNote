@@ -95,7 +95,13 @@ select * from account;
 	虚拟表 和普通表一样使用 
     mysql 5.1版本出现的新特性 是通过表动态生成的数据 
 比如:
-	舞蹈班和普通班级的对比 
+	舞蹈班和普通班级的对比
+
+		创建语法的关键字 		是否占用物理空间			使用  	
+视图: 	create view 			×(只保存sql逻辑)			增删改查(一般不能) 
+表:		create table			√(保存了实际数据) 			增删改查 
+
+
 	
 */
 
@@ -179,3 +185,44 @@ drop view myv2;
 */
 desc myv3;
 show create view myv3;#命令行好看一些 
+
+#五 视图的更新 
+drop view myv1 ;
+create or replace view myv1
+as
+select last_name,email,salary*12*(1+ifnull(commission_pct,0)) 'annual salary'
+from employees;
+
+select * from myv1;
+
+#1.插入 
+create or replace view myv2
+as
+select last_name,email
+from employees;
+
+insert into myv2 values('张飞','491507328@qq.com');
+select * from myv2;
+select * from employees;
+
+#2.修改
+update myv2 set last_name = '小红' where last_name ='张飞';
+SET SQL_SAFE_UPDATES = 0;
+
+#3.删除 
+delete from myv2 where last_name = '小红';
+
+#具备以下特点的视图不允许更新 
+/*
+1.包含以下关键词 
+	distinct 
+	group by 
+    having 
+    union 
+    union all
+2.常量视图
+3.select 中包含子查询 
+4.join (所有连接都算)
+5.from 一个不能更新的视图 
+6.where 子句的子查询引用了from字句中的表 
+*/
