@@ -102,13 +102,37 @@ set @name = 100;
 use Myemployees;
 select count(*) into @count
 from employees;
-select @count;
+SELECT @count;
 
 #2.局部变量
 /*
 作用域:
 	仅仅在他的begin end中有效 
+    应用在begin end中的第一句话 
 #声明
 	declare 变量名 类型;
     declare 变量名 类型 default 值;
+#赋值
+	方法一:
+    set @局部变量名 = 值;
+	set @局部变量名:= 值;
+	select @局部变量名:=值;
+	方法二:
+    select 字段 into 局部变量名 from 表; 
+#使用 
+	
 */
+
+#案例:声明两个变量并赋初始值,求和,并打印
+#1.用户变量
+set @m = 1;
+set @n = 2;
+set @sum = @m+@n;
+select @sum;
+
+#用户变量
+declare m int default 2;
+declare n int default 2;
+declare sum int;
+set sum = m + n;
+
