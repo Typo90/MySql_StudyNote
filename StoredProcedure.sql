@@ -139,3 +139,22 @@ end $
 
 call myp6('小昭',@bName,@usercp)$
 select @bName,@usercp $
+
+#4.创建带inout模式参数的存储过程 
+#案例1:传入a和b两个值,最终a和b都翻倍返回 
+create procedure myp8(inout a int , inout b int)
+begin
+	set a = a*2;
+    set b = b*2;
+end $
+
+set @m  = 10$
+set @n  = 20$
+call myp8(@m,@n)$
+select @m,@n$
+
+#二 删除存储过程
+#语法:drop procedure 存储过程名
+
+#三 查看存储过程结构信息 
+show create procedure myp2;

@@ -532,3 +532,77 @@ drop view emp_v1;
 /*
 
 */ 
+
+#============================================================================
+#============================================================================
+
+
+#test_lesson16 存储过程
+#1、创建存储过程或函数实现传入用户名和密码，插入到 admin 表中 
+DELIMITER $
+create procedure t1(in username varchar(20), in MyPassword varchar(20))
+begin
+	insert into admin(admin.username,admin.password) values(username,MyPassword);
+end$
+DELIMITER ;
+call t1('admin','123');
+select * from admin;
+
+#2、创建存储过程或函数实现传入女神编号，返回女神名称和女神电话
+DELIMITER $
+create procedure t2(in id int,out name varchar(20),out phone varchar(20))
+begin
+	select b.name,b.phone into name,phone
+    from beauty b
+    where b.id = id;
+end $
+DELIMITER ;
+call t2(1,@n,@p);
+select @n,@p;
+
+#3、创建存储存储过程或函数实现传入两个女神生日，返回大小
+DELIMITER $
+create procedure t3(in BirthDay_1 datetime,in BirthDay_2 datetime,out result int)
+begin
+	select datediff(BirthDay_1,BirthDay_2) into result;
+end $
+DELIMITER ;
+call t3('1998-1-1',now(),@result);
+select @result;
+
+#4、创建存储过程或函数实现传入一个日期，格式化成 xx 年 xx 月 xx 日并返回
+DELIMITER $
+create procedure t4(in MyDate datetime ,out OutDate varchar(20))
+begin
+	select date_format(Mydate,'%y年%m月%d日') into OutDate;
+end $
+DELIMITER ;
+call t4(now(),@outdate);
+select @outdate;
+
+#5、创建存储过程或函数实现传入女神名称，返回：女神 and 男神  格式的字符串 如 传入 ：小昭 返回： 小昭 and 张无忌
+DELIMITER $
+drop procedure t5$
+create procedure t5(in girl varchar(20),out str varchar(50)) 
+begin
+	select concat(ifnull(bo.boyName,'无'),'and',girl) into str
+    from beauty b
+    left join boys bo
+    on b.boyfriend_id = bo.id
+	where girl = b.name;
+end $
+DELIMITER ;
+call t5('小昭',@str);
+call t5('柳岩',@str_1);
+select @str,@str_1;
+ 
+#6、创建存储过程或函数，根据传入的条目数和起始索引，查询 beauty 表的记录
+drop procedure t6;
+DELIMITER $
+create procedure t6(in size int, in startIndex int)
+begin 
+	select * from beauty
+    limit size,startIndex;
+end$
+DELIMITER ;
+call t6(3,5);
