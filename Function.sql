@@ -29,3 +29,56 @@ end
 3.当函数体中只有一句话可以省略begin end
 4.使用delimiter 语句设置结束标记  
 */
+
+#二 调用 
+/*
+select 函数名(参数列表)
+*/
+
+#案例
+#1.无参有返回 
+#返回公司的员工个数 
+set global log_bin_trust_function_creators=1;
+use myemployees;
+delimiter $
+create function myf1() returns int 
+begin
+
+	declare c int default 0;
+    select count(*) into c from employees;
+    return c;
+end $
+
+select myf1()$
+
+#2.有参有返回
+#案例1:根据员工名返回他的工资
+create function myf2(empName varchar(20)) returns double
+begin
+	set @sal = 0;
+    select salary into @sal
+		from employees
+        where last_name = empName;
+	return @sal;
+end $
+select myf2('Kochhar')$
+
+#案例2:根据部门名,返回该部门的平均工资  
+create function myf3(depName varchar(20)) returns double
+begin
+	declare avg_sal double default 0;
+    select avg(salary) into avg_sal
+		from employees e
+        join departments d on e.department_id = d.department_id
+        where d.department_name = depName;
+        return avg_sal;
+end$
+select myf3('it')$
+select myf3('Adm')$
+
+#三 查看函数 
+show create function myf3$
+
+#四 删除函数 
+drop function myf3;
+

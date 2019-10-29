@@ -606,3 +606,28 @@ begin
 end$
 DELIMITER ;
 call t6(3,5);
+
+#============================================================================
+#============================================================================
+
+
+#test_lesson17 函数
+#1、创建函数，实现传入两个 float，返回二者之和 
+DELIMITER $
+create function t1(m float,n float) returns float
+begin
+	declare sum float;
+    select m+n into sum;
+    return sum;
+end $
+select t1(5.6,0.4)$
+
+#2、创建函数，实现传入工种名，返回该工种的员工人数
+create function t2(jobName varchar(20)) returns int
+begin
+	set @people = 0 ;
+	select count(*) into @people
+    from employees 
+    where job_id = jobName;
+end $ 
+#3、创建函数，实现传入员工名，返回该员工的领导名
