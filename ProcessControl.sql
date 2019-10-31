@@ -122,3 +122,47 @@ select test_if(86)$
         end repeat
     [标签];	
 */
+
+#案例:批量插入,根据次数插入到admin表中多条记录 
+drop procedure pro_while1$
+create procedure pro_while1(in insertCount int)
+begin
+	declare i int default 1;
+	while i<= insertCount do
+		insert into admin(username,password) values(concat('Hello',i),'666');
+		set i=i+1;
+	end while;
+end $
+call pro_while1(100)$
+select * from admin$
+
+#2.添加leave语句
+#案例:批量插入,根据次数插入到admin表中多条记录如果次数>20则停止 
+truncate table admin$
+create procedure pro_while2(in insertCount int)
+begin
+	declare i int default 1;
+	a:while i<= insertCount do
+		insert into admin(username,password) values(concat('Hello',i),'123');
+		set i=i+1;
+        if i>=20 then leave a;
+        end if;
+	end while a;
+end $
+call pro_while2(100)$
+
+#3.添加iterate语句
+#
+drop procedure pro_while3$
+create procedure pro_while3(in insertCount int)
+begin
+	declare i int default 0;
+	a:while i<= insertCount do
+		set i=i+1;
+        if mod(i,2)!=0 then iterate a;
+        end if;
+        insert into admin(username,password) values(concat('小明',i),'123');
+	end while a;
+end $
+call pro_while3(100)$
+select * from admin;

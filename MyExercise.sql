@@ -630,4 +630,28 @@ begin
     from employees 
     where job_id = jobName;
 end $ 
+DELIMITER ;
 #3、创建函数，实现传入员工名，返回该员工的领导名
+
+#============================================================================
+#============================================================================
+
+
+#test_lesson18 流程控制结构
+#1、已知表 stringcontent 其中字段： id 自增长 content varchar(20) 向该表插入指定个数的，随机的字符串
+create table stringcontent(
+	id int primary key auto_increment,
+    content varchar(20)
+);
+DELIMITER $
+create procedure t18(in count int)
+begin
+	declare i int default 1;
+    declare str varchar(26) default 'abcdefghijlmnopqrstuvwxyz';
+    declare random int default 1;
+    while(i<=count) do
+		SUBSTR(str,set random = floor(rand()*26+1))
+		set i = i+1;
+        
+    end while;
+end$
